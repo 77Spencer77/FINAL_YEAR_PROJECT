@@ -3,6 +3,7 @@ const app = express();
 const http = require("http");
 const cors = require("cors");
 const { Server } = require("socket.io");
+const path = require("path");
 app.use(cors());
 
 const server = http.createServer(app);
@@ -13,6 +14,19 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+const __dirname1 = path.resolve();
+
+if ("production" === "production") {
+  app.use(express.static(path.join(__dirname1, "/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname1, "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running..");
+  });
+}
 
 io.on("connection", (socket) => {
   console.log(`User Connected: ${socket.id}`);
