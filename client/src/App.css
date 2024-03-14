@@ -6,6 +6,14 @@
   font-family: "Open Sans", sans-serif;
   display: grid;
   place-items: center;
+  background-image: url("./secure_chat.jpeg");
+  background-size: cover; /* Cover the entire background */
+  background-repeat: no-repeat; /* Prevent image from repeating */
+  background-position: center; /* Center the background image */
+  background-attachment: fixed; /* Fix the background image */
+
+  /* Optional: Set background color as fallback */
+  background-color: #f0f0f0;
 }
 body {
   margin: 0%;

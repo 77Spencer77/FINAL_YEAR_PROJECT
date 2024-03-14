@@ -1,13 +1,37 @@
 import React, { useEffect, useState } from "react";
 import ScrollToBottom from "react-scroll-to-bottom";
+import CryptoJS from "crypto-js";
 
 function Chat({ socket, username, room }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
 
+  const secretKey = "your-secret-key"; // Replace with your secret key
+
+  const encryptMessage = (message) => {
+    return CryptoJS.AES.encrypt(message, secretKey).toString();
+  };
+
+  const decryptMessage = (encryptedMessage) => {
+    const bytes = CryptoJS.AES.decrypt(encryptedMessage, secretKey);
+    return bytes.toString(CryptoJS.enc.Utf8);
+  };
+
   const sendMessage = async () => {
     if (currentMessage !== "") {
+      const encryptedMessage = encryptMessage(currentMessage);
       const messageData = {
+        room: room,
+        author: username,
+        message: encryptedMessage,
+        time:
+          new Date(Date.now()).getHours() +
+          ":" +
+          new Date(Date.now()).getMinutes(),
+      };
+
+      await socket.emit("send_message", messageData);
+      const newmessageData = {
         room: room,
         author: username,
         message: currentMessage,
@@ -16,16 +40,17 @@ function Chat({ socket, username, room }) {
           ":" +
           new Date(Date.now()).getMinutes(),
       };
-
-      await socket.emit("send_message", messageData);
-      setMessageList((list) => [...list, messageData]);
+      setMessageList((list) => [...list, newmessageData]);
       setCurrentMessage("");
     }
   };
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      setMessageList((list) => [...list, data]);
+      console.log(data);
+      const decryptedMessage = decryptMessage(data.message);
+      const decryptedData = { ...data, message: decryptedMessage };
+      setMessageList((list) => [...list, decryptedData]);
     });
   }, [socket]);
 
@@ -36,9 +61,10 @@ function Chat({ socket, username, room }) {
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">
-          {messageList.map((messageContent) => {
+          {messageList.map((messageContent, index) => {
             return (
               <div
+                key={index}
                 className="message"
                 id={username === messageContent.author ? "you" : "other"}
               >
