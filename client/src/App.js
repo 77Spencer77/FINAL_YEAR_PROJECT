@@ -4,8 +4,8 @@ import io from "socket.io-client";
 import { useState, useEffect } from "react";
 import Chat from "./Chat";
 import { useAuth0 } from "@auth0/auth0-react";
-// const socket = io.connect("https://final-year-project-6.onrender.com/");
-const socket = io.connect("http://localhost:3001/");
+const socket = io.connect("https://final-year-project-6.onrender.com/");
+// const socket = io.connect("http://localhost:3001/");
 
 function App() {
   const { user, loginWithRedirect, isAuthenticated, logout } = useAuth0();
