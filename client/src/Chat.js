@@ -3,11 +3,13 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import CryptoJS from "crypto-js";
 
 function Chat({ socket, username, room }) {
+  // const random = Math.floor(Math.random() * 100) + 50;
+  // const private_key_client = random;
+  // const public_key_client = random * 9;
   const [currentMessage, setCurrentMessage] = useState("");
+  // const [secretKey, setSecretKey] = useState("");
   const [messageList, setMessageList] = useState([]);
-
-  const secretKey = "your-secret-key"; // Replace with your secret key
-
+  const secretKey = "your-secret-key";
   const encryptMessage = (message) => {
     return CryptoJS.AES.encrypt(message, secretKey).toString();
   };
@@ -16,8 +18,18 @@ function Chat({ socket, username, room }) {
     const bytes = CryptoJS.AES.decrypt(encryptedMessage, secretKey);
     return bytes.toString(CryptoJS.enc.Utf8);
   };
+  // useEffect(() => {
+  //   socket.on("users", (public_key_server) => {
+  //     console.log(public_key_server);
+  //     let s = (public_key_server * private_key_client).toString() + "giki";
+  //     setSecretKey(s);
+  //     console.log(s);
+  //   });
+  // }, [currentMessage]);
 
   const sendMessage = async () => {
+    // await socket.emit("key", public_key_client);
+
     if (currentMessage !== "") {
       const encryptedMessage = encryptMessage(currentMessage);
       const messageData = {
@@ -57,7 +69,7 @@ function Chat({ socket, username, room }) {
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <p>Live Chat</p>
+        <p>LIVE CHAT ID : {room}</p>
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">
@@ -86,7 +98,7 @@ function Chat({ socket, username, room }) {
         <input
           type="text"
           value={currentMessage}
-          placeholder="Hey..."
+          placeholder=""
           onChange={(event) => {
             setCurrentMessage(event.target.value);
           }}

@@ -1,10 +1,15 @@
+body {
+  overflow: hidden;
+}
 .App {
   width: 100vw;
   height: 100vh;
   background: #fff;
   color: #212121;
   font-family: "Open Sans", sans-serif;
-  display: grid;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   place-items: center;
   background-image: url("./secure_chat.jpeg");
   background-size: cover; /* Cover the entire background */
@@ -25,6 +30,8 @@ body {
   display: flex;
   flex-direction: column;
   text-align: center;
+  align-items: center;
+  margin-top: 120px;
 }
 
 .joinChatContainer h3 {
@@ -59,6 +66,9 @@ body {
 }
 
 .chat-window {
+  display: flex;
+  flex-direction: column;
+  margin-top: 200px;
   width: 300px;
   height: 420px;
 }
@@ -120,6 +130,63 @@ body {
   padding-left: 5px;
   overflow-wrap: break-word;
   word-break: break-word;
+}
+.nine h1 {
+  text-align: center;
+  font-size: 50px;
+  text-transform: uppercase;
+  color: #222;
+  letter-spacing: 1px;
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+}
+.nine h1 span {
+  margin-top: 5px;
+  font-size: 15px;
+  color: #444;
+  word-spacing: 1px;
+  font-weight: normal;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+
+  display: grid;
+  grid-template-columns: 1fr max-content 1fr;
+  grid-template-rows: 27px 0;
+  grid-gap: 20px;
+  align-items: center;
+}
+.user-name {
+  font-family: "Arial", sans-serif;
+  font-size: 15px;
+  /* font-weight: bold; */
+  color: black;
+  /* background-color: #f0f0f0; */
+  padding: 10px;
+  /* border-radius: 8px; */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.user-name span {
+  color: #007bff; /* or any other preferred color */
+  font-weight: normal;
+}
+
+.authenticate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 250px;
+}
+.nine h1 span:after,
+.nine h1 span:before {
+  content: " ";
+  display: block;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  height: 5px;
+  background-color: #f8f8f8;
 }
 
 #you {
